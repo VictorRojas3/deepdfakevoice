@@ -56,7 +56,8 @@ async def detect(request: Request):
     try:
         f = FE.decompose(wav)
     except Exception as e:
-        raise HTTPException(400, f"Error procesando audio: {e}")
+        log.error("EXCEPCIÓN REAL: %s", repr(e))  # <-- Agrega esto
+        raise HTTPException(400, f"JSON o base64 inválido: {e}")
     try:
         X = pd.DataFrame([[f[c] for c in STATE["columns"]]], columns=STATE["columns"])
     except KeyError as e:
